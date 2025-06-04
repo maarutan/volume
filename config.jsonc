@@ -1,0 +1,22 @@
+{
+  "theme": "twist", // default | twist
+
+  "redner_volume": "  *･ﾟ✧ {volume}% ✧･ﾟ*",
+  "microphone_mute": "🎤 Microphone Muted" ,
+
+  "microphone_unmute": "🎤  (づ｡◕‿‿◕｡)づ" ,
+  "volume_mute": "   (づ｡◕‿‿◕｡)づ",
+
+  "notify_id": 9999,
+  "notify_timeout": 1000,
+  "notify_sound": false,
+  "notify_icon": true,
+
+  "notify_progress_bar": true,
+
+  "turn_add": 7, 
+  "turn_sub": 7,
+
+  "turn_smooth": true,
+  "turn_delay": 0.01
+}
