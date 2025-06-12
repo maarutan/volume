@@ -6,6 +6,7 @@ check_exists = [
     l.CACHE_FILE_SYSTEM_THEME,
     l.JSONC_CONFIG,
     l.ICONS_THEME_DIR,
+    l.RELATIVE_CACHE_FILE_SYSTEM_THEME,
 ]
 
 try:

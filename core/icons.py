@@ -9,6 +9,7 @@ from modules import (
 from core.path.list import (
     ICONS_THEME_DIR,
     CACHE_FILE_SYSTEM_THEME,
+    RELATIVE_CACHE_FILE_SYSTEM_THEME,
 )
 
 
@@ -44,7 +45,14 @@ class IconPath(IconsTheme):
         return themes
 
     def get_system_theme(self) -> str:
-        return CACHE_FILE_SYSTEM_THEME.read_text()
+        if not CACHE_FILE_SYSTEM_THEME.exists():
+            CACHE_FILE_SYSTEM_THEME.parent.mkdir(parents=True, exist_ok=True)
+            CACHE_FILE_SYSTEM_THEME.write_text("dark")
+        return (
+            CACHE_FILE_SYSTEM_THEME.read_text().strip()
+            if CACHE_FILE_SYSTEM_THEME
+            else RELATIVE_CACHE_FILE_SYSTEM_THEME.read_text().strip()
+        )
 
     def get_micro_mute_icon(self) -> Path:
         if self.vol.is_micro_muted():

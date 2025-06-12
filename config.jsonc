@@ -11,7 +11,7 @@
   // ┴└─└─┘┘└┘─┴┘└─┘┴└─
 
   // Theme settings
-  "theme": "default",  // Add custom themes (default options: "default" | "twist")
+  "theme": "twist",  // Add custom themes (default options: "default" | "twist")
   
   // Volume display settings
   "redner_volume": "  *･ﾟ✧ {volume}% ✧･ﾟ*",  // Customize volume output (use {volume} placeholder)
@@ -62,5 +62,5 @@
   "turn_add": 5,              // Volume increase step (--up command)
   "turn_sub": 5,              // Volume decrease step (--down command)
   "turn_smooth": true,        // Enable smooth volume transitions
-  "turn_delay": 0.01          // Smooth transition speed (seconds per step)
+  "turn_delay": 0.001          // Smooth transition speed (seconds per step)
 }

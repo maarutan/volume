@@ -61,6 +61,8 @@ class Render:
                 progress=bool(self.conf.get_option("notify_progress_bar")),
                 progress_value=new_volume,
             ).send()
+            self.sound.sound_start_handler(self.vol.get_volume())
+            self.sound.sound_end_handler(self.vol.get_volume())
 
     def toggle_micro(self):
         self.vol.toggle_micro_mute()
