@@ -4,6 +4,7 @@ from modules import NotifySend
 list_dependencies = [
     "pactl",
     "notify-send",
+    "mpv",
 ]
 
 n = NotifySend

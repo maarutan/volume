@@ -2,9 +2,10 @@ from modules import (
     NotifySend,
     Volume,
     SmoothTurn,
-    IconPath,
 )
 from core.config import Config
+from core.icons import IconPath
+from core.sound import Sound
 
 
 class Render:
@@ -14,10 +15,12 @@ class Render:
         self.conf = Config()
         self.st = SmoothTurn
         self.ip = IconPath()
+        self.sound = Sound()
 
-        self.icons_vol = self.ip.get_volume_icon()
-        self.icons_micro = self.ip.get_micro_mute_icon()
-        self.icons_vol_mute = self.ip.get_volume_mute_icon()
+        ntsend_icon = self.conf.get_option("notify_icon")
+        self.icons_vol = self.ip.get_volume_icon() if ntsend_icon else None
+        self.icons_micro = self.ip.get_micro_mute_icon() if ntsend_icon else None
+        self.icons_vol_mute = self.ip.get_volume_mute_icon() if ntsend_icon else None
 
     async def add_volume(self, status: str):
         status = "-" if status == "-" else ""
@@ -31,20 +34,25 @@ class Render:
             st_instance = self.st(
                 delay=float(self.conf.get_option("turn_delay")),
                 stop_step=abs(delta),
-                function_st=lambda: self.ntsend(
-                    icon=self.icons_vol,
-                    message=self.conf.get_option("redner_volume").format(
-                        volume=self.vol.just_add(1 if delta > 0 else -1)
-                    ),
-                    timeout=int(self.conf.get_option("notify_timeout")),
-                    id=int(self.conf.get_option("notify_id")),
-                    progress=bool(self.conf.get_option("notify_progress_bar")),
-                    progress_value=self.vol.get_volume(),
-                ).send(),
+                function_st=lambda: (
+                    self.ntsend(
+                        icon=self.icons_vol,
+                        message=self.conf.get_option("redner_volume").format(
+                            volume=self.vol.just_add(1 if delta > 0 else -1)
+                        ),
+                        timeout=int(self.conf.get_option("notify_timeout")),
+                        id=int(self.conf.get_option("notify_id")),
+                        progress=bool(self.conf.get_option("notify_progress_bar")),
+                        progress_value=self.vol.get_volume(),
+                    ).send(),
+                    self.sound.sound_start_handler(self.vol.get_volume()),
+                    self.sound.sound_end_handler(self.vol.get_volume()),
+                ),
             )
             await st_instance.run()
         else:
             new_volume = self.vol.just_add(delta)
+
             self.ntsend(
                 icon=self.icons_vol,
                 message=self.conf.get_option("redner_volume").format(volume=new_volume),
